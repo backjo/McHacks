@@ -100,7 +100,8 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
         User.findById(req.user.id, function(err, user) {
           user.github = profile.id;
           user.tokens.push({ kind: 'github', accessToken: accessToken });
-          user.profile.name = user.profile.name || profile.displayName;
+          user.profile.name.first = user.profile.name.first || profile.displayName.split(' ')[0];
+          user.profile.name.last = user.profile.name.last || profile.displayName.split(' ')[1];
           user.profile.picture = user.profile.picture || profile._json.avatar_url;
           user.profile.location = user.profile.location || profile._json.location;
           user.profile.website = user.profile.website || profile._json.blog;
@@ -123,7 +124,8 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
           user.email = profile._json.email;
           user.github = profile.id;
           user.tokens.push({ kind: 'github', accessToken: accessToken });
-          user.profile.name = profile.displayName;
+          user.profile.name.first = user.profile.name.first || profile.displayName.split(' ')[0];
+          user.profile.name.last = user.profile.name.last || profile.displayName.split(' ')[1];
           user.profile.picture = profile._json.avatar_url;
           user.profile.location = profile._json.location;
           user.profile.website = profile._json.blog;

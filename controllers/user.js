@@ -141,6 +141,9 @@ exports.postUpdateProfile = function(req, res, next) {
     user.profile.gear.oculus = req.body.oculus || 'no';
     user.profile.gear.leap = req.body.leap || 'no';
 
+    user.profile.interest = req.body.interests || user.profile.interest;
+    user.profile.experience  = req.body.experience || user.profile.experience;
+
     user.save(function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Profile information updated.' });

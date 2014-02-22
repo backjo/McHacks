@@ -134,6 +134,13 @@ exports.postUpdateProfile = function(req, res, next) {
     user.profile.name.first = req.body.firstname || '';
     user.profile.name.last = req.body.lastname || '';
 
+    user.profile.gear.android = req.body.android || 'no';
+    user.profile.gear.ios = req.body.ios || 'no';
+    user.profile.gear.glass = req.body.glass || 'no';
+    user.profile.gear.pebble = req.body.pebble || 'no';
+    user.profile.gear.oculus = req.body.oculus || 'no';
+    user.profile.gear.leap = req.body.leap || 'no';
+
     user.save(function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Profile information updated.' });

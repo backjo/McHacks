@@ -149,8 +149,9 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
       } else {
         User.findById(req.user.id, function(err, user) {
           user.twitter = profile.id;
-          user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });
-          user.profile.name = user.profile.name || profile.displayName;
+          //user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });  //
+          user.profile.name.first = user.profile.name.first || profile.displayName.split(' ')[0];
+          user.profile.name.last = user.profile.name.last || profile.displayName.split(' ')[1];
           user.profile.location = user.profile.location || profile._json.location;
           user.profile.picture = user.profile.picture || profile._json.profile_image_url;
           user.save(function(err) {
@@ -171,7 +172,8 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
       user.email = profile.username + "@twitter.com";
       user.twitter = profile.id;
       user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });
-      user.profile.name = profile.displayName;
+      user.profile.name.first = user.profile.name.first || profile.displayName.split(' ')[0];
+      user.profile.name.last = user.profile.name.last || profile.displayName.split(' ')[1];
       user.profile.location = profile._json.location;
       user.profile.picture = profile._json.profile_image_url;
       user.save(function(err) {

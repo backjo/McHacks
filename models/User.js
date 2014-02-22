@@ -21,7 +21,14 @@ var userSchema = new mongoose.Schema({
     website: { type: String, default: '' },
     picture: { type: String, default: '' },
     interest: { type: String, default: ''},
-    gear: { type: String, default: ''}
+    gear: {
+      glass: { type: String, default: '' },
+      oculus: { type: String, default: '' },
+      pebble: { type: String, default: '' },
+      leap: { type: String, default: '' },
+      ios: { type: String, default: '' },
+      android: { type: String, default: '' }
+    }
   },
 
   resetPasswordToken: String,

@@ -7,11 +7,15 @@ block content
   form.form-horizontal(action='/account/profile', method='POST')
     input(type='hidden', name='_csrf', value=token)
     .form-group
-      label.col-sm-2.control-label(for='name') Name
+      label.col-sm-2.control-label(for='nameFirst') First Name
       .col-sm-4
-        input.form-control(type='text', name='name', id='name', value='#{user.profile.name}')
+        input.form-control(type='text', name='name', id='first', value='#{user.profile.name.first}')
     .form-group
-      label.col-sm-2.control-label(for='name') Email
+      label.col-sm-2.control-label(for='nameLast') Last Name
+      .col-sm-4
+         input.form-control(type'text', name='name', id='last', value='#{user.profile.name.last}')
+    .form-group
+      label.col-sm-2.control-label(for='email') Email
       .col-sm-4
         input.form-control(type='email', name='email', id='email', value='#{user.email}')
     .form-group

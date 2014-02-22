@@ -29,7 +29,8 @@ var userSchema = new mongoose.Schema({
       leap: { type: String, default: '' },
       ios: { type: String, default: '' },
       android: { type: String, default: '' }
-    }
+    },
+    acceptedUsers: Array
   },
 
   resetPasswordToken: String,

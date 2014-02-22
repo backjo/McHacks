@@ -128,10 +128,11 @@ exports.postUpdateProfile = function(req, res, next) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
     user.email = req.body.email || '';
-    user.profile.name = req.body.name || '';
     user.profile.university = req.body.university || '';
     user.profile.website = req.body.website || '';
     user.profile.gear = req.body.gear || '';
+    user.profile.name.first = req.body.firstname || '';
+    user.profile.name.last = req.body.lastname || '';
 
     user.save(function(err) {
       if (err) return next(err);

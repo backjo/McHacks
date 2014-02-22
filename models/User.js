@@ -13,7 +13,10 @@ var userSchema = new mongoose.Schema({
   tokens: Array,
 
   profile: {
-    name: { type: String, default: '' },
+    name: {
+      first: { type: String, default: '' },
+      last: { type: String, default: '' }
+    },
     university: { type: String, default: '' },
     website: { type: String, default: '' },
     picture: { type: String, default: '' },

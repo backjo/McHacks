@@ -7,16 +7,18 @@ block content
   h3
      |#{newUser.profile.name.first}, #{newUser.profile.university}
   h4
-     |Gear:
+     |GEAR:
   h5
      |#{gearString}
-  h6
-     |Interests:
-  h7
+  h4
+     |INTERESTS:
+  h5
      |#{newUser.profile.interest}
-  h8
-     |Experience:
-  h9
+     br
+  h4
+     |EXPERIENCE:
+     br
+  h5
      |#{newUser.profile.experience}
   #container.buttons
     form(action='/vote',method='post', id="form1")

@@ -30,22 +30,28 @@ block content
         label.col-sm-2.control-label(for='gear') Gear
         .col-sm-4
            label.radio
-             input(type='checkbox', checked=user.profile.gear.ios=='yes', name='ios', value='yes', data-toggle='radio')
+             input(type='checkbox', checked=user.profile.gear.ios=='yes', name='ios', value='yes', data-toggle='checkbox')
+             &nbsp&nbsp
              span iOS
            label.radio
-             input(type='checkbox', checked=user.profile.gear.android=='yes', name='android', value='yes', data-toggle='radio')
+             input(type='checkbox', checked=user.profile.gear.android=='yes', name='android', value='yes', data-toggle='checkbox')
+             &nbsp&nbsp
              span Android
            label.radio
-             input(type='checkbox', checked=user.profile.gear.glass=='yes', name='glass', value='yes', data-toggle='radio')
+             input(type='checkbox', checked=user.profile.gear.glass=='yes', name='glass', value='yes', data-toggle='checkbox')
+             &nbsp&nbsp
              Span Google Glass
            label.radio
-             input(type='checkbox', checked=user.profile.gear.oculus=='yes', name='oculus', value='yes', data-toggle='radio')
+             input(type='checkbox', checked=user.profile.gear.oculus=='yes', name='oculus', value='yes', data-toggle='checkbox')
+             &nbsp&nbsp
              Span Oculus Rift
            label.radio
-             input(type='checkbox', checked=user.profile.gear.pebble=='yes', name='pebble', value='yes', data-toggle='radio')
-             Span Pebble 
+             input(type='checkbox', checked=user.profile.gear.pebble=='yes', name='pebble', value='yes', data-toggle='checkbox')
+             &nbsp&nbsp
+             Span Pebble
            label.radio
-             input(type='checkbox', checked=user.profile.gear.leap=='yes', name='leap', value='yes', data-toggle='radio')
+             input(type='checkbox', checked=user.profile.gear.leap=='yes', name='leap', value='yes', data-toggle='checkbox')
+             &nbsp&nbsp
              Span Leap Motion
     .form-group
         label.col-sm-2.control-label(for='interests') Interests

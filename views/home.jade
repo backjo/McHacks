@@ -7,11 +7,17 @@ block content
   h3
      |#{newUser.profile.name.first}, #{newUser.profile.university}
   h4
-     |Gear: #{gearString}
+     |Gear:
   h5
-     |Interests: #{newUser.profile.interest}
+     |#{gearString}
   h6
-     |Experience: #{newUser.profile.experience}
+     |Interests:
+  h7
+     |#{newUser.profile.interest}
+  h8
+     |Experience:
+  h9
+     |#{newUser.profile.experience}
   #container.buttons
    img(src= "img/yes.png", width="80", height="80")
    img(src= "img/no.png", width="80", height="80")

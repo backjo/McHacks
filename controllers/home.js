@@ -12,15 +12,28 @@ exports.index = function(req, res) {
 };
 
 exports.postRating = function(req, res) {
-  var isAccepted = req.body.isAccepted;
+  var isApproved = req.body.isApproved;
   var userID = req.body.userID;
+  res.send(200);
+
+  console.log('vote is posted');
+  console.log(req.body);
+
+  console.log(req.user.id +  " is user id");
 
   User.findById(req.user.id, function(err, user) {
-    if(isAccepted) {
+    if(isApproved) {
+      console.log(err);
+      console.log('is true');
+      console.log('User is ' + user.profile.name.first)
+      console.log('Accepted is ' + userID);
       user.profile.acceptedUsers.push(userID);
+      user.save();
     }
     else {
+      console.log(isApproved);
       user.profile.rejectedUsers.push(userID);
+      user.save();
     }
   });
 };

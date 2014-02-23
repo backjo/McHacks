@@ -1,9 +1,9 @@
 extends layout
 
 block content
- h1 Find Your Match 
-  h2
-   img(src="#{newUser.profile.picture}", width="257", height="326", align="center")
+ h1 Find Your Match
+ h2
+    img(src="#{newUser.profile.picture}",height="200", width="200", class="circularx")
   h3
      |#{newUser.profile.name.first}, #{newUser.profile.university}
   h4
@@ -14,10 +14,8 @@ block content
      |INTERESTS:
   h5
      |#{newUser.profile.interest}
-     br
   h4
      |EXPERIENCE:
-     br
   h5
      |#{newUser.profile.experience}
   #container.buttons

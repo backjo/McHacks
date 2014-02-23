@@ -3,15 +3,15 @@ extends layout
 block content
  h1 Find Your Match 
   h2
-   img(src= "http://upload.wikimedia.org/wikipedia/commons/3/33/Nicolas_Cage_2011_CC.jpg", width="257", height="326", align="center")
+   img(src="#{newUser.profile.picture}", width="257", height="326", align="center")
   h3
-     |Nick, University of Cincinnati
+     |#{newUser.profile.name.first}, #{newUser.profile.university}
   h4
-     |Gear: iOS, Android, Google Glass
+     |Gear: #{gearString}
   h5
-     |Interests: Node.js, Social Games
+     |Interests: #{newUser.profile.interest}
   h6
-     |Skills: Javascript, Ruby, PHP
+     |Experience: #{newUser.profile.experience}
   #container.buttons
    img(src= "img/yes.png", width="80", height="80")
    img(src= "img/no.png", width="80", height="80")

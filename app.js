@@ -163,6 +163,8 @@ app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '
   res.redirect('/api/venmo');
 });
 
+
+//app.get('/test', homeController.getUser);
 /**
  * Start Express server.
  */

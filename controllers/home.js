@@ -19,7 +19,6 @@ exports.index = function(req, res) {
 exports.postRating = function(req, res) {
   var isApproved = req.body.isApproved;
   var userID = req.body.userID;
-  res.send(200);
 
   console.log('vote is posted');
   console.log(req.body);
@@ -59,6 +58,7 @@ exports.postRating = function(req, res) {
       user.profile.rejectedUsers.push(userID);
       user.save();
     }
+    res.redirect('/');
   });
 };
 
@@ -88,7 +88,10 @@ var getUser = function(req, res) {
           gearString: gearString
         });
       } else {
-        res.redirect('/account');
+        res.render('home', {
+          title: 'Home',
+          newUser: null
+        });
       }
     })
   });

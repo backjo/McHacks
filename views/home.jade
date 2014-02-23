@@ -1,27 +1,29 @@
 extends layout
 
 block content
-
- h2
-    img(src="#{newUser.profile.picture}",height="200", width="200", class="circularx")
-  h3
-     |#{newUser.profile.name.first}, #{newUser.profile.university}
-  h4
-     |GEAR
-  h5
-     |#{gearString}
-  h4
-     |INTERESTS
-  h5
-     |#{newUser.profile.interest}
-  h4
-     |EXPERIENCE
-  h5
-     |#{newUser.profile.experience}
-  #container.buttons
-    form(action='/vote',method='post', id="form1")
-       input(type='hidden', name='_csrf', value=token)
-       input(type="hidden", name="isApproved", value="false", id="isApproved")
-       input(type="hidden", name="userID", value="#{newUser._id}")
-       img(src= "img/yes.png", width="80", height="80", onclick="$('#isApproved').val('true');$('#form1').submit()")
-       img(src= "img/no.png", width="80", height="80", onclick="$('#isApproved').val('true');$('#form1').submit()")
+  if newUser != null
+      h2
+        img(src="#{newUser.profile.picture}",height="200", width="200", class="circularx")
+      h3
+         |#{newUser.profile.name.first}, #{newUser.profile.university}
+      h4
+         |GEAR
+      h5
+         |#{gearString}
+      h4
+         |INTERESTS
+      h5
+         |#{newUser.profile.interest}
+      h4
+         |EXPERIENCE
+      h5
+         |#{newUser.profile.experience}
+      #container.buttons
+        form(action='/vote',method='post', id="form1")
+           input(type='hidden', name='_csrf', value=token)
+           input(type="hidden", name="isApproved", value="false", id="isApproved")
+           input(type="hidden", name="userID", value="#{newUser._id}")
+           img(src= "img/yes.png", width="80", height="80", onclick="$('#isApproved').val('true');$('#form1').submit()")
+           img(src= "img/no.png", width="80", height="80", onclick="$('#isApproved').val('true');$('#form1').submit()")
+   else
+      h5 |No New Users to Rate

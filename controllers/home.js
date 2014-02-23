@@ -24,9 +24,10 @@ exports.postRating = function(req, res) {
   console.log(req.body);
 
   console.log(req.user.id +  " is user id");
+  console.log('isApproved:' + isApproved);
 
   User.findById(req.user.id, function(err, user) {
-    if(isApproved) {
+    if(isApproved === true || isApproved === "true") {
       console.log(err);
       console.log('is true');
       console.log('User is ' + user.profile.name.first)

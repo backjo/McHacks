@@ -24,6 +24,6 @@ block content
            input(type="hidden", name="isApproved", value="false", id="isApproved")
            input(type="hidden", name="userID", value="#{newUser._id}")
            img(src= "img/yes.png", width="80", height="80", onclick="$('#isApproved').val('true');$('#form1').submit()")
-           img(src= "img/no.png", width="80", height="80", onclick="$('#isApproved').val('true');$('#form1').submit()")
+           img(src= "img/no.png", width="80", height="80", onclick="$('#isApproved').val('false');$('#form1').submit()")
    else
       h5 |No New Users to Rate

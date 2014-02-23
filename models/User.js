@@ -30,12 +30,14 @@ var userSchema = new mongoose.Schema({
       ios: { type: String, default: '' },
       android: { type: String, default: '' }
     },
-    acceptedUsers: Array
+    acceptedUsers: Array,
+    rejectedUsers: Array
   },
 
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });
+
 
 /**
  * Hash the password for security.

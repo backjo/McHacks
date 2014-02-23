@@ -3,9 +3,14 @@ extends layout
 block content
     br
     each user in matches
-        h3 Name:  #{user.profile.name.first}
-        h3 University: #{user.profile.university}
-        h3 Email:
-            a(href="mailto:#{user.email}") #{user.email}
-        h3 Interests: #{user.profile.interest}
-        h3 Experience: #{user.profile.experience}
+        h4 Name:
+        h5 #{user.profile.name.first}
+        h4 University:
+        h5 #{user.profile.university}
+        h4 Email:
+        h5
+         a(href="mailto:#{user.email}") #{user.email}
+        h4 Interests:
+        h5 #{user.profile.interest}
+        h4 Experience:
+        h5  #{user.profile.experience}

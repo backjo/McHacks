@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    br
+    each user in matches
+        h3 Name:  #{user.profile.name.first}
+        h3 University: #{user.profile.university}
+        h3 Email:
+            a(href="mailto:#{user.email}") #{user.email}
+        h3 Interests: #{user.profile.interest}
+        h3 Experience: #{user.profile.experience}

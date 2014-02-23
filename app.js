@@ -21,6 +21,7 @@ var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var forgotController = require('./controllers/forgot');
 var resetController = require('./controllers/reset');
+var matchesController = require('./controllers/matches')
 
 /**
  * API keys + Passport configuration.
@@ -166,6 +167,7 @@ app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '
 
 //app.get('/test', homeController.getUser);
 app.post('/vote', homeController.postRating);
+app.get('/matches', matchesController.index)
 /**
  * Start Express server.
  */

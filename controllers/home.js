@@ -3,6 +3,11 @@
  * Home page.
  */
 var User = require('../models/User');
+var nodemailer = require("nodemailer");
+var secrets = require('../config/secrets.js');
+var Mailgun = require('mailgun').Mailgun;
+
+var mailgun = new Mailgun(secrets.mailgun.password);
 
 exports.index = function(req, res) {
   if(req.user)
@@ -29,6 +34,25 @@ exports.postRating = function(req, res) {
       console.log('Accepted is ' + userID);
       user.profile.acceptedUsers.push(userID);
       user.save();
+      User.findById(userID, function(err2, user2) {
+        var mailOptions = {
+          from: "TinderHackathon@gmail.com",
+          to: user.email,
+          subject: "New Match on TinderHackathon",
+          text: "You've both been matched! HappyHac"
+        };
+        console.log("In arr at idx: " + user2.profile.acceptedUsers.indexOf(req.user.id))
+        if(user2.profile.acceptedUsers.indexOf(req.user.id) != -1) {
+          console.log("Sending email!");
+          var fullName = user2.profile.name.first + ' ' + user2.profile.name.last + ' ';
+          mailgun.sendText('jonahback@gmail.com', user.email, "New Match on Snippet", "You've been matched with " + fullName +
+            '<' + user2.email + '>');
+          fullName = user.profile.name.first + ' ' + user.profile.name.last + ' ';
+          mailgun.sendText('jonahback@gmail.com', user2.email, "New Match on Snippet", "You've been matched with " + fullName +
+            '<' + user.email + '>');
+
+        }
+      })
     }
     else {
       console.log(isApproved);
@@ -64,7 +88,7 @@ var getUser = function(req, res) {
           gearString: gearString
         });
       } else {
-        res.render('login');
+        res.redirect('/account');
       }
     })
   });

@@ -5,8 +5,8 @@ module.exports = {
   sessionSecret: "Your Session Secret goes here",
 
   mailgun: {
-    login: 'Your Mailgun SMTP Username',
-    password: 'Your Mailgun SMTP Password'
+    login: 'api',
+    password: 'key-140o2wi2gqyprkszigdhgswhn2shl708'
   },
 
   sendgrid: {

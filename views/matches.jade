@@ -3,6 +3,8 @@ extends layout
 block content
     br
     each user in matches
+        h2
+            img(src="#{user.profile.picture}",height="200", width="200", class="circularx")
         h4 Name:
         h5 #{user.profile.name.first}
         h4 University:
@@ -14,3 +16,4 @@ block content
         h5 #{user.profile.interest}
         h4 Experience:
         h5  #{user.profile.experience}
+        hr

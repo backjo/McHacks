@@ -34,6 +34,8 @@ var userSchema = new mongoose.Schema({
     rejectedUsers: Array
   },
 
+  isNewUser: {type: Boolean, default: true},
+
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });

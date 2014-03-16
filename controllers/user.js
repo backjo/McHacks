@@ -127,6 +127,7 @@ exports.getAccount = function(req, res) {
 exports.postUpdateProfile = function(req, res, next) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
+    var isNewUser = user.isNewUser;
     user.email = req.body.email || '';
     user.profile.university = req.body.university || '';
     user.profile.website = req.body.website || '';
@@ -143,11 +144,15 @@ exports.postUpdateProfile = function(req, res, next) {
 
     user.profile.interest = req.body.interests || user.profile.interest;
     user.profile.experience  = req.body.experience || user.profile.experience;
-
+    user.isNewUser = false;
     user.save(function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Profile information updated.' });
-      res.redirect('/account');
+      if(isNewUser) {
+        res.redirect('/');
+      }
+      else
+        res.redirect('/account');
     });
   });
 };

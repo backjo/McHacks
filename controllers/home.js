@@ -11,7 +11,12 @@ var mailgun = new Mailgun(secrets.mailgun.password);
 
 exports.index = function(req, res) {
   if(req.user)
-    getUser(req, res);
+    if(req.user.isNewUser) {
+      req.flash('info', { msg: 'Please update your profile before proceeding' });
+      res.redirect('/account');
+    }
+    else
+      getUser(req, res);
   else
     res.redirect('/login');
 };
@@ -66,7 +71,8 @@ exports.postRating = function(req, res) {
 var getUser = function(req, res) {
   User.findById(req.user.id, function(err, user) {
     User.find({
-      '_id': { $nin:user.profile.acceptedUsers.concat(user.profile.rejectedUsers).concat([req.user.id])}
+      '_id': { $nin:user.profile.acceptedUsers.concat(user.profile.rejectedUsers).concat([req.user.id])},
+      'isNewUser' : false
     }, function(err, newUsers) {
       if(newUsers.length > 0) {
         var gearString = '';

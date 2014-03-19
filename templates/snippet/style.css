@@ -1,0 +1,41 @@
+html, body {
+  height: 100%;
+}
+
+body {
+}
+
+h1 {
+  text-align: center;
+  font-size: 18px;
+}
+
+h2	{
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  color: #ff4400;
+  font-family: Avenir;
+
+
+}
+h3	{
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  font-family: Avenir;
+  letter-spacing: 0.025em;
+}
+h4	{
+  text-align: center;
+  font-size: 23px;
+  font-weight: normal;
+  font-family: Avenir;
+  letter-spacing: 0.05em;
+}
+
+.circularx{
+  border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    }

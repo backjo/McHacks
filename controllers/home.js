@@ -5,9 +5,10 @@
 var User = require('../models/User');
 var nodemailer = require("nodemailer");
 var secrets = require('../config/secrets.js');
-var Mailgun = require('mailgun').Mailgun;
-
-var mailgun = new Mailgun(secrets.mailgun.password);
+var path           = require('path')
+  , templatesDir   = path.resolve('templates')
+  , emailTemplates = require('email-templates')
+  , nodemailer     = require('nodemailer');
 
 exports.index = function(req, res) {
   if(req.user)
@@ -40,24 +41,113 @@ exports.postRating = function(req, res) {
       user.profile.acceptedUsers.push(userID);
       user.save();
       User.findById(userID, function(err2, user2) {
-        var mailOptions = {
-          from: "TinderHackathon@gmail.com",
-          to: user.email,
-          subject: "New Match on TinderHackathon",
-          text: "You've both been matched! HappyHac"
-        };
-        console.log("In arr at idx: " + user2.profile.acceptedUsers.indexOf(req.user.id))
-        if(user2.profile.acceptedUsers.indexOf(req.user.id) != -1) {
-          console.log("Sending email!");
-          var fullName = user2.profile.name.first + ' ' + user2.profile.name.last + ' ';
-          mailgun.sendText('jonahback@gmail.com', user.email, "New Match on Snippet", "You've been matched with " + fullName +
-            '<' + user2.email + '>');
-          fullName = user.profile.name.first + ' ' + user.profile.name.last + ' ';
-          mailgun.sendText('jonahback@gmail.com', user2.email, "New Match on Snippet", "You've been matched with " + fullName +
-            '<' + user.email + '>');
+      //   var mailOptions = {
+      //     from: "TinderHackathon@gmail.com",
+      //     to: user.email,
+      //     subject: "New Match on TinderHackathon",
+      //     text: "You've both been matched! HappyHac"
+      //   };
+      //   console.log("In arr at idx: " + user2.profile.acceptedUsers.indexOf(req.user.id))
+      //   if(user2.profile.acceptedUsers.indexOf(req.user.id) != -1) {
+      //     console.log("Sending email!");
+      //     var fullName = user2.profile.name.first + ' ' + user2.profile.name.last + ' ';
+      //     mailgun.sendText('jonahback@gmail.com', user.email, "New Match on Snippet", "You've been matched with " + fullName +
+      //       '<' + user2.email + '>');
+      //     fullName = user.profile.name.first + ' ' + user.profile.name.last + ' ';
+      //     mailgun.sendText('jonahback@gmail.com', user2.email, "New Match on Snippet", "You've been matched with " + fullName +
+      //       '<' + user.email + '>');
+      //
+      //   }
+      emailTemplates(templatesDir, function(err, template) {
 
+  if (err) {
+    console.log(err);
+  } else {
+
+    var transportBatch = nodemailer.createTransport("SMTP", {
+    host: "localhost", // hostname
+    secureConnection: false, // use SSL
+    port: 3333, // port for secure SMTP
+    auth: {
+        user: "",
+        pass: ""
+    }
+});
+
+    // users object
+    var users = [
+      {
+        email: user.email,
+        name: {
+          first: user.profile.name.first,
+          last: user.profile.name.last
+        },
+        matchName: user2.profile.name.first,
+        matchPicture: user2.profile.picture,
+        matchUniversity: user2.profile.university
+      },
+      {
+        email: user2.email,
+        name: {
+          first: user2.profile.name.first,
+          last: user2.profile.name.last
+        },
+        matchName: user.profile.name.first,
+        matchPicture: user.profile.picture,
+        matchUniversity: user.profile.university
+      }
+    ];
+
+
+
+    // Custom function for sending emails outside the loop
+    //
+    var Render = function(locals) {
+      this.locals = locals;
+      console.log*(locals);
+      this.send = function(err, html, text) {
+        if (err) {
+          console.log(err);
+        } else {
+          transportBatch.sendMail({
+            from: 'Snippet <match@snippethack.com>',
+            to: locals.email,
+            subject: 'You Have a new Match on Snippet!',
+            html: html,
+            //generateTextFromHTML: true,
+            text: text,
+          }, function(err, responseStatus) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(responseStatus.message);
+            }
+          });
         }
-      })
+      };
+      this.batch = function(batch) {
+        batch(this.locals, templatesDir, this.send);
+      };
+    };
+
+    // Load the template and send the emails
+    template('snippet', true, function(err, batch) {
+      for(var user in users) {
+        var render = new Render(users[user]);
+        render.batch(batch);
+      }
+    });
+
+
+
+
+
+  }
+});
+
+    })
+
+
     }
     else {
       console.log(isApproved);

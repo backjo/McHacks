@@ -5,10 +5,10 @@
 var User = require('../models/User');
 var nodemailer = require("nodemailer");
 var secrets = require('../config/secrets.js');
-var path           = require('path')
-  , templatesDir   = path.resolve('templates')
-  , emailTemplates = require('email-templates')
-  , nodemailer     = require('nodemailer');
+var path = require('path');
+var templatesDir = path.resolve('templates');
+var emailTemplates = require('email-templates');
+
 
 exports.index = function(req, res) {
   if(req.user)
@@ -41,23 +41,6 @@ exports.postRating = function(req, res) {
       user.profile.acceptedUsers.push(userID);
       user.save();
       User.findById(userID, function(err2, user2) {
-      //   var mailOptions = {
-      //     from: "TinderHackathon@gmail.com",
-      //     to: user.email,
-      //     subject: "New Match on TinderHackathon",
-      //     text: "You've both been matched! HappyHac"
-      //   };
-      //   console.log("In arr at idx: " + user2.profile.acceptedUsers.indexOf(req.user.id))
-      //   if(user2.profile.acceptedUsers.indexOf(req.user.id) != -1) {
-      //     console.log("Sending email!");
-      //     var fullName = user2.profile.name.first + ' ' + user2.profile.name.last + ' ';
-      //     mailgun.sendText('jonahback@gmail.com', user.email, "New Match on Snippet", "You've been matched with " + fullName +
-      //       '<' + user2.email + '>');
-      //     fullName = user.profile.name.first + ' ' + user.profile.name.last + ' ';
-      //     mailgun.sendText('jonahback@gmail.com', user2.email, "New Match on Snippet", "You've been matched with " + fullName +
-      //       '<' + user.email + '>');
-      //
-      //   }
       emailTemplates(templatesDir, function(err, template) {
 
   if (err) {
@@ -65,12 +48,10 @@ exports.postRating = function(req, res) {
   } else {
 
     var transportBatch = nodemailer.createTransport("SMTP", {
-    host: "localhost", // hostname
-    secureConnection: false, // use SSL
-    port: 3333, // port for secure SMTP
+    service: "Mandrill",
     auth: {
-        user: "",
-        pass: ""
+        user: secrets.mandrill.user,
+        pass: secrets.mandrill.password
     }
 });
 
@@ -84,7 +65,8 @@ exports.postRating = function(req, res) {
         },
         matchName: user2.profile.name.first,
         matchPicture: user2.profile.picture,
-        matchUniversity: user2.profile.university
+        matchUniversity: user2.profile.university,
+        matchEmail: user2.email
       },
       {
         email: user2.email,
@@ -94,7 +76,8 @@ exports.postRating = function(req, res) {
         },
         matchName: user.profile.name.first,
         matchPicture: user.profile.picture,
-        matchUniversity: user.profile.university
+        matchUniversity: user.profile.university,
+        matchEmail: user.email
       }
     ];
 
@@ -112,6 +95,7 @@ exports.postRating = function(req, res) {
           transportBatch.sendMail({
             from: 'Snippet <match@snippethack.com>',
             to: locals.email,
+            reply_to: locals.matchEmail,
             subject: 'You Have a new Match on Snippet!',
             html: html,
             //generateTextFromHTML: true,

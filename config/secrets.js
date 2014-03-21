@@ -4,14 +4,9 @@ module.exports = {
   localAuth: true,
   sessionSecret: "Your Session Secret goes here",
 
-  mailgun: {
-    login: 'api',
-    password: 'key-140o2wi2gqyprkszigdhgswhn2shl708'
-  },
-
-  sendgrid: {
-    user: 'Your SendGrid Username',
-    password: 'Your SendGrid Password'
+  mandrill: {
+    user: 'boxgamex@gmail.com',
+    password: 'GAvvFcgExPuaga_pGr8Tpg'
   },
 
   gmail: {

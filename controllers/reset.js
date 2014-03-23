@@ -68,16 +68,16 @@ exports.postReset = function(req, res, next) {
     },
     function(user, done) {
       var smtpTransport = nodemailer.createTransport('SMTP', {
-        service: 'SendGrid',
+        service: 'mandrill',
         auth: {
-          user: secrets.sendgrid.user,
-          pass: secrets.sendgrid.password
+          user: secrets.mandrill.user,
+          pass: secrets.mandrill.password
         }
       });
       var mailOptions = {
         to: user.profile.name + ' <' + user.email + '>',
-        from: 'hackathon@starter.com',
-        subject: 'Your Hackathon Starter password has been changed',
+        from: 'recovery@snippethack.com',
+        subject: 'Your Snippet password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
       };

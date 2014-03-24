@@ -63,7 +63,7 @@ app.use(connectAssets({
 }));
 app.use(express.compress());
 app.use(express.bodyParser({uploadDir:'./public/img'}));
-app.use(express.favicon());
+app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
 app.use(express.logger('dev'));
 app.use(express.cookieParser());
 app.use(express.json());
@@ -94,6 +94,7 @@ app.use(function(req, res) {
   res.render('404');
 });
 app.use(express.errorHandler());
+
 
 /**
  * Application routes.

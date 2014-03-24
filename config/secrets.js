@@ -31,7 +31,7 @@ module.exports = {
     passReqToCallback: true
   },
 
-  githubAuth: true,
+  githubAuth: false,
   github: {
     clientID: 'b5af81e1450fb92bfcfa',
     clientSecret: '4d535952ea88e8a86ee1f1b544eda31082a4428b',

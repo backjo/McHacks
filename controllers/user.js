@@ -145,6 +145,13 @@ exports.postUpdateProfile = function(req, res, next) {
     user.profile.interest = req.body.interests || user.profile.interest;
     user.profile.experience  = req.body.experience || user.profile.experience;
     user.isNewUser = false;
+
+    if(req.files && req.files.image && req.files.image.size > 0) {
+      console.log(req.files);
+      console.log(req.headers.host + '/' + req.files.image.ws.path.substr(7))
+      user.profile.picture = 'http://' + req.headers.host + '/' + req.files.image.ws.path.substr(7)
+    }
+
     user.save(function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Profile information updated.' });

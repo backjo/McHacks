@@ -41,86 +41,86 @@ exports.postRating = function(req, res) {
       user.profile.acceptedUsers.push(userID);
       user.save();
       User.findById(userID, function(err2, user2) {
-      emailTemplates(templatesDir, function(err, template) {
+        emailTemplates(templatesDir, function(err, template) {
 
-  if (err) {
-    console.log(err);
-  } else {
+        if (err2) {
+          console.log(err);
+        } else if(user2.profile.acceptedUsers.indexOf(req.user.id) != -1) {
 
-    var transportBatch = nodemailer.createTransport("SMTP", {
-    service: "Mandrill",
-    auth: {
-        user: secrets.mandrill.user,
-        pass: secrets.mandrill.password
-    }
-});
+          var transportBatch = nodemailer.createTransport("SMTP", {
+            service: "Mandrill",
+            auth: {
+                user: secrets.mandrill.user,
+                pass: secrets.mandrill.password
+            }
+          });
 
-    // users object
-    var users = [
-      {
-        email: user.email,
-        name: {
-          first: user.profile.name.first,
-          last: user.profile.name.last
-        },
-        matchName: user2.profile.name.first,
-        matchPicture: user2.profile.picture,
-        matchUniversity: user2.profile.university,
-        matchEmail: user2.email
-      },
-      {
-        email: user2.email,
-        name: {
-          first: user2.profile.name.first,
-          last: user2.profile.name.last
-        },
-        matchName: user.profile.name.first,
-        matchPicture: user.profile.picture,
-        matchUniversity: user.profile.university,
-        matchEmail: user.email
-      }
-    ];
+          // users object
+          var users = [
+            {
+              email: user.email,
+              name: {
+                first: user.profile.name.first,
+                last: user.profile.name.last
+              },
+              matchName: user2.profile.name.first,
+              matchPicture: user2.profile.picture,
+              matchUniversity: user2.profile.university,
+              matchEmail: user2.email
+            },
+            {
+              email: user2.email,
+              name: {
+                first: user2.profile.name.first,
+                last: user2.profile.name.last
+              },
+              matchName: user.profile.name.first,
+              matchPicture: user.profile.picture,
+              matchUniversity: user.profile.university,
+              matchEmail: user.email
+            }
+          ];
 
 
 
     // Custom function for sending emails outside the loop
     //
-    var Render = function(locals) {
-      this.locals = locals;
-      console.log*(locals);
-      this.send = function(err, html, text) {
-        if (err) {
-          console.log(err);
-        } else {
-          transportBatch.sendMail({
-            from: 'Snippet <match@snippethack.com>',
-            to: locals.email,
-            reply_to: locals.matchEmail,
-            subject: 'You Have a new Match on Snippet!',
-            html: html,
-            //generateTextFromHTML: true,
-            text: text,
-          }, function(err, responseStatus) {
+        var Render = function(locals) {
+          this.locals = locals;
+          console.log*(locals);
+          this.send = function(err, html, text) {
             if (err) {
               console.log(err);
             } else {
-              console.log(responseStatus.message);
+              transportBatch.sendMail({
+                from: 'Snippet <match@snippethack.com>',
+                to: locals.email,
+                reply_to: locals.matchEmail,
+                subject: 'You Have a new Match on Snippet!',
+                html: html,
+                //generateTextFromHTML: true,
+                text: text,
+              }, function(err, responseStatus) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log(responseStatus.message);
+                }
+              });
             }
-          });
-        }
-      };
-      this.batch = function(batch) {
-        batch(this.locals, templatesDir, this.send);
-      };
-    };
+          };
+          this.batch = function(batch) {
+            batch(this.locals, templatesDir, this.send);
+          };
+        };
 
-    // Load the template and send the emails
-    template('snippet', true, function(err, batch) {
-      for(var user in users) {
-        var render = new Render(users[user]);
-        render.batch(batch);
-      }
-    });
+        // Load the template and send the emails
+        template('snippet', true, function(err, batch) {
+          for(var user in users) {
+            var render = new Render(users[user]);
+            render.batch(batch);
+          }
+        });
 
 
 

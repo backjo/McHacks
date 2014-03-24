@@ -4,7 +4,7 @@ block content
   .page-header
     h3 Profile Information
 
-  form.form-horizontal(action='/account/profile', method='POST')
+  form.form-horizontal(action='/account/profile', method='POST', enctype="multipart/form-data")
     input(type='hidden', name='_csrf', value=token)
     .form-group
       label.col-sm-2.control-label(for='nameFirst') First Name
@@ -31,27 +31,27 @@ block content
         .col-sm-4
            label.radio
              input(type='checkbox', checked=user.profile.gear.ios=='yes', name='ios', value='yes', data-toggle='checkbox')
-             &nbsp&nbsp
+             | &nbsp&nbsp
              span iOS
            label.radio
              input(type='checkbox', checked=user.profile.gear.android=='yes', name='android', value='yes', data-toggle='checkbox')
-             &nbsp&nbsp
+             | &nbsp&nbsp
              span Android
            label.radio
              input(type='checkbox', checked=user.profile.gear.glass=='yes', name='glass', value='yes', data-toggle='checkbox')
-             &nbsp&nbsp
+             | &nbsp&nbsp
              Span Google Glass
            label.radio
              input(type='checkbox', checked=user.profile.gear.oculus=='yes', name='oculus', value='yes', data-toggle='checkbox')
-             &nbsp&nbsp
+             | &nbsp&nbsp
              Span Oculus Rift
            label.radio
              input(type='checkbox', checked=user.profile.gear.pebble=='yes', name='pebble', value='yes', data-toggle='checkbox')
-             &nbsp&nbsp
+             | &nbsp&nbsp
              Span Pebble
            label.radio
              input(type='checkbox', checked=user.profile.gear.leap=='yes', name='leap', value='yes', data-toggle='checkbox')
-             &nbsp&nbsp
+             | &nbsp&nbsp
              Span Leap Motion
     .form-group
         label.col-sm-2.control-label(for='interests') Interests
@@ -62,9 +62,20 @@ block content
           .col-sm-4
               textarea.form-control(type='text', name='experience', id='experience') #{user.profile.experience}
       .form-group
-      label.col-sm-2.control-label(for='gravatar') Gravatar
-      .col-sm-4
-        img(src="#{user.gravatar()}", class='profile', width='100', height='100')
+        label.col-sm-2.control-label(for='gravatar') Gravatar
+        .col-sm-4
+          img(src="#{user.gravatar()}", class='profile', width='100', height='100')
+      .form-group
+        label.col-sm-2.control-label(for='upload') Upload Picture
+        .col-sm-4
+          input(type='file', name='image')
+    .form-group
+        label.col-sm-2.control-label(for="looking") Looking for a Group?
+        .col-sm-4
+          label.radio
+            input(type='checkbox', checked=user.active=='yes', name='active', value='yes', data-toggle='checkbox')
+            | &nbsp&nbsp
+            span
 
     .form-group
       .col-sm-offset-2.col-sm-4

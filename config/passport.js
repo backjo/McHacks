@@ -9,6 +9,15 @@ var OAuthStrategy = require('passport-oauth').OAuthStrategy; // Tumblr
 var OAuth2Strategy = require('passport-oauth').OAuth2Strategy; // Venmo, Foursquare
 var User = require('../models/User');
 var secrets = require('./secrets');
+var Keen = require('keen.io');
+
+var Keen = Keen.configure(
+    {
+      projectId: secrets.keen.projectId,
+      writeKey: secrets.keen.writeKey
+    }
+);
+
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -184,6 +193,13 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
       });
     });
   }
+  Keen.addEvent("User", {"Login": "true"}, function(err, res) {
+    if (err) {
+      console.log("Oh no, an error!");
+    } else {
+      console.log("Hooray, it worked!");
+    }
+  });
 }));
 
 /**

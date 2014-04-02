@@ -1,6 +1,15 @@
 var passport = require('passport');
 var _ = require('underscore');
 var User = require('../models/User');
+var secrets = require('../config/secrets.js');
+var Keen = require('keen.io');
+
+var Keen = Keen.configure(
+    {
+      projectId: secrets.keen.projectId,
+      writeKey: secrets.keen.writeKey
+    }
+);
 
 /**
  * GET /login
@@ -43,6 +52,13 @@ exports.postLogin = function(req, res, next) {
     req.logIn(user, function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Success! You are logged in.' });
+      Keen.addEvent("User", {"Login": "true"}, function(err, res) {
+    if (err) {
+        console.log("Oh no, an error!");
+    } else {
+        console.log("Hooray, it worked!");
+    }
+});
       return res.redirect('/');
     });
   })(req, res, next);
@@ -55,6 +71,13 @@ exports.postLogin = function(req, res, next) {
 
 exports.logout = function(req, res) {
   req.logout();
+  Keen.addEvent("User", {"Logout": "true"}, function(err, res) {
+if (err) {
+    console.log("Oh no, an error!");
+} else {
+    console.log("Hooray, it worked!");
+}
+});
   res.redirect('/');
 };
 
@@ -92,6 +115,14 @@ exports.postSignup = function(req, res, next) {
   var user = new User({
     email: req.body.email,
     password: req.body.password
+  });
+
+  Keen.addEvent("User", {"Register": "true"}, function(err, res) {
+    if (err) {
+      console.log("Oh no, an error!");
+    } else {
+      console.log("Hooray, it worked!");
+    }
   });
 
   user.save(function(err) {

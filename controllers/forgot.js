@@ -57,29 +57,31 @@ exports.postForgot = function(req, res, next) {
       });
     },
     function(token, user, done) {
-      var smtpTransport = nodemailer.createTransport('SMTP', {
-        service: 'Mandrill',
+      var transportBatch = nodemailer.createTransport("SMTP", {
+        service: "Mandrill",
         auth: {
-          user: secrets.mandrill.user,
-          pass: secrets.mandrill.password
+            user: secrets.mandrill.user,
+            pass: secrets.mandrill.password
         }
       });
+
       var mailOptions = {
-        to: user.profile.name + ' <' + user.email + '>',
-        from: 'reset@snippethack.com',
-        subject: 'Hackathon Starter Password Reset',
+        to: user.email,
+        from: 'Snippet <reset@snippethack.com>',
+        subject: 'Snippet Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
       };
-      smtpTransport.sendMail(mailOptions, function(err) {
+      transportBatch.sendMail(mailOptions, function(err) {
         req.flash('info', { msg: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
         done(err, 'done');
       });
     }
   ], function(err) {
     if (err) return next(err);
+    console.log("Nodemailer fail");
     res.redirect('/forgot');
   });
 };

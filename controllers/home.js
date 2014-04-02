@@ -8,6 +8,14 @@ var secrets = require('../config/secrets.js');
 var path = require('path');
 var templatesDir = path.resolve('templates');
 var emailTemplates = require('email-templates');
+var Keen = require('keen.io');
+
+var Keen = Keen.configure(
+    {
+      projectId: secrets.keen.projectId,
+      writeKey: secrets.keen.writeKey
+    }
+);
 
 
 exports.index = function(req, res) {
@@ -25,6 +33,20 @@ exports.index = function(req, res) {
 exports.postRating = function(req, res) {
   var isApproved = req.body.isApproved;
   var userID = req.body.userID;
+
+  var voteEvent = {
+    vote: isApproved,
+    user: userID
+  };
+
+    Keen.addEvent("Matches", {"Vote": voteEvent}, function(err, res) {
+        if (err) {
+          console.log("Oh no, an error!");
+        } else {
+          console.log("Hooray, it worked!");
+        }
+      });
+
 
   console.log('vote is posted');
   console.log(req.body);
@@ -81,7 +103,13 @@ exports.postRating = function(req, res) {
             }
           ];
 
-
+      Keen.addEvent("Matches", {"SuccessfulMatch": users}, function(err, res) {
+    if (err) {
+        console.log("Oh no, an error!");
+    } else {
+        console.log("Hooray, it worked!");
+    }
+});
 
     // Custom function for sending emails outside the loop
     //

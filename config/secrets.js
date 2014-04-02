@@ -4,6 +4,11 @@ module.exports = {
   localAuth: true,
   sessionSecret: "Your Session Secret goes here",
 
+  keen:  {
+    projectId:"532f8710ce5e436304000009",
+    writeKey: "7145b2fe039620da1d74e645b0abc487b0025c3f90561d9e1fb997b43da0276770e5a057f10c04651434cb8604e2579aab5c024430af9729aa952974070c555e732191fe9d75cf74a3462cea68453b1da24ba47db5bbac00339c8ed2fa083e11018e7ca020be73841b7552f4a9637272"
+  },
+  
   mandrill: {
     user: 'boxgamex@gmail.com',
     password: 'GAvvFcgExPuaga_pGr8Tpg'

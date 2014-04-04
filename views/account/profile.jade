@@ -62,20 +62,21 @@ block content
           .col-sm-4
               textarea.form-control(type='text', name='experience', id='experience') #{user.profile.experience}
       .form-group
-        label.col-sm-2.control-label(for='gravatar') Gravatar
-        .col-sm-4
-          img(src="#{user.gravatar()}", class='profile', width='100', height='100')
+        //- label.col-sm-2.control-label(for='gravatar') Gravatar
+        //- .col-sm-4
+        //-   img(src="#{user.gravatar()}", class='profile', width='100', height='100')
       .form-group
-        label.col-sm-2.control-label(for='upload') Upload Picture
+        label.col-sm-2.control-label(for='upload') Profile Image
         .col-sm-4
+          img(src="#{user.profile.picture}", class='profile', width='100', height='100', class="circularx")
+          br
+          br
           input(type='file', name='image')
     .form-group
-        label.col-sm-2.control-label(for="looking") Looking for a Group?
+        label.col-sm-2.control-label(for="looking") No Longer Looking for a Match?
         .col-sm-4
           label.radio
-            input(type='checkbox', checked=user.active=='yes', name='active', value='yes', data-toggle='checkbox')
-            | &nbsp&nbsp
-            span
+            input(type='checkbox', checked=user.matchRemove=='yes', name='active', value='yes', data-toggle='checkbox')
 
     .form-group
       .col-sm-offset-2.col-sm-4

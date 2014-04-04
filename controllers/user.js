@@ -159,6 +159,8 @@ exports.postUpdateProfile = function(req, res, next) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
     var isNewUser = user.isNewUser;
+    var matchRemove = user.matchRemove;
+    console.log(matchRemove);
     user.email = req.body.email || '';
     user.profile.university = req.body.university || '';
     user.profile.website = req.body.website || '';
@@ -173,9 +175,13 @@ exports.postUpdateProfile = function(req, res, next) {
     user.profile.gear.oculus = req.body.oculus || 'no';
     user.profile.gear.leap = req.body.leap || 'no';
 
+    user.matchRemove = req.body.active || 'no';
+
     user.profile.interest = req.body.interests || user.profile.interest;
     user.profile.experience  = req.body.experience || user.profile.experience;
     user.isNewUser = false;
+
+
 
     if(req.files && req.files.image && req.files.image.size > 0) {
       console.log(req.files);

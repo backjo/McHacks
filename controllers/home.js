@@ -24,6 +24,10 @@ exports.index = function(req, res) {
       req.flash('info', { msg: 'Please update your profile before proceeding' });
       res.redirect('/account');
     }
+    else if(req.user.matchRemove=='yes'){
+      req.flash('info', { msg: 'You have removed yourself from the match queue. You can enable searching for new matches from the Profile section, or view your successful Matches here.' });
+      res.redirect('/matches');
+    }
     else
       getUser(req, res);
   else

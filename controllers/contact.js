@@ -42,8 +42,8 @@ exports.postContact = function(req, res) {
   var from = req.body.email;
   var name = req.body.name;
   var body = req.body.message;
-  var to = 'your@email.com';
-  var subject = 'API Example | Contact Form';
+  var to = 'ken@snippethack.com';
+  var subject = 'Snippet | Contact Form';
 
   var mailOptions = {
     to: to,
